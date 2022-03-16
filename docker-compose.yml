@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - db-volume:/var/lib/postgresql/data/pgdata
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+
+
+  # redis:
+  #   image: redis:5
+  #   restart: always
+  #   privileged: true
+  #   ports:
+  #     - 6379:6379
+  #   volumes:
+  #     - redis-volume:/data
+
+volumes:
+  db-volume:
+  # redis-volume:
