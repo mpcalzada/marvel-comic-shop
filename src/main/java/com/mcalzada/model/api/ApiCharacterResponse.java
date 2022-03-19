@@ -2,11 +2,17 @@ package com.mcalzada.model.api;
 
 import com.mcalzada.model.entity.Character;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ApiCharacterResponse
 {
 
@@ -18,6 +24,9 @@ public class ApiCharacterResponse
 
     @Getter
     @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
     public static class ApiCharacterData
     {
 
@@ -30,6 +39,9 @@ public class ApiCharacterResponse
 
     @Getter
     @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
     public static class ApiCharacterResult
     {
 

@@ -5,11 +5,17 @@ import com.mcalzada.model.entity.Collaborator;
 import com.mcalzada.model.entity.Comic;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ApiComicsResponse
 {
 
@@ -17,11 +23,14 @@ public class ApiComicsResponse
     private String status;
     private String copyright;
     private String etag;
-    private Data data;
+    private ApiComicData data;
 
     @Getter
     @Setter
-    public static class Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class ApiComicData
     {
 
         private Long offset;
@@ -33,6 +42,9 @@ public class ApiComicsResponse
 
     @Getter
     @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
     public static class Results
     {
 
@@ -42,7 +54,7 @@ public class ApiComicsResponse
         private String format;
         private String description;
         private String modified;
-        private Creators creators;
+        private ApiCreators creators;
         private ApiCharacter characters;
 
         public Comic buildComic()
@@ -53,6 +65,9 @@ public class ApiComicsResponse
 
     @Getter
     @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
     public static class ApiCharacter
     {
 
@@ -77,7 +92,10 @@ public class ApiComicsResponse
 
     @Getter
     @Setter
-    public static class Creators
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class ApiCreators
     {
 
         private Integer available;
@@ -102,6 +120,9 @@ public class ApiComicsResponse
 
     @Getter
     @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
     public static class Item
     {
 
