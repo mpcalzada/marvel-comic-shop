@@ -1,0 +1,538 @@
+{
+	"info": {
+		"_postman_id": "e4e4df2f-1305-47dc-8eb9-9cd0aefbf3ac",
+		"name": "Marvel Comics Shop",
+		"description": "SpringBoot REST API for retrieview marvel heroes artist information\n\nContact Support:\n Email: mccalzada@outlook.com",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "colaborator",
+			"item": [
+				{
+					"name": "Get colaborator by name",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/collaborators/:hero",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"collaborators",
+								":hero"
+							],
+							"variable": [
+								{
+									"key": "hero",
+									"value": "ironman",
+									"description": "(Required) The name of the marvel superhero"
+								}
+							]
+						},
+						"description": "Returns a list of collaborators that worked in requested character comics"
+					},
+					"response": [
+						{
+							"name": "Successful operation",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/collaborators/:hero",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"collaborators",
+										":hero"
+									],
+									"variable": [
+										{
+											"key": "hero",
+											"value": "id dolor",
+											"description": "(Required) The name of the marvel superhero"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"last_sync\": \"1980-01-28T05:19:27.602Z\",\n  \"editors\": [\n    \"Wilson Moss\",\n    \"Andy Smidth\"\n  ],\n  \"writers\": [\n    \"Ed Brubaker\",\n    \"Ryan North\"\n  ],\n  \"colorist\": [\n    \"Rico Renzi\"\n  ]\n}"
+						},
+						{
+							"name": "Invalid hero supplied",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/collaborators/:hero",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"collaborators",
+										":hero"
+									],
+									"variable": [
+										{
+											"key": "hero",
+											"value": "id dolor",
+											"description": "(Required) The name of the marvel superhero"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Provided hero not found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/collaborators/:hero",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"collaborators",
+										":hero"
+									],
+									"variable": [
+										{
+											"key": "hero",
+											"value": "id dolor",
+											"description": "(Required) The name of the marvel superhero"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Internal server error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/collaborators/:hero",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"collaborators",
+										":hero"
+									],
+									"variable": [
+										{
+											"key": "hero",
+											"value": "id dolor",
+											"description": "(Required) The name of the marvel superhero"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Gateway timeout",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/collaborators/:hero",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"collaborators",
+										":hero"
+									],
+									"variable": [
+										{
+											"key": "hero",
+											"value": "id dolor",
+											"description": "(Required) The name of the marvel superhero"
+										}
+									]
+								}
+							},
+							"status": "Gateway Timeout",
+							"code": 504,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			],
+			"description": "Everything about Marvel collaborators"
+		},
+		{
+			"name": "character",
+			"item": [
+				{
+					"name": "Get charactere by name",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/characters/:hero",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"characters",
+								":hero"
+							],
+							"variable": [
+								{
+									"key": "hero",
+									"value": "id dolor",
+									"description": "(Required) The name of the marvel superhero"
+								}
+							]
+						},
+						"description": "Returns other heroes interactions with requested character"
+					},
+					"response": [
+						{
+							"name": "successful operation",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/characters/:hero",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"characters",
+										":hero"
+									],
+									"variable": [
+										{
+											"key": "hero",
+											"value": "id dolor",
+											"description": "(Required) The name of the marvel superhero"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"last_sync\": \"1946-10-14T06:50:00.039Z\",\n  \"characters\": [\n    {\n      \"character\": \"Squirrel Girl\",\n      \"comics\": [\n        \"The Unbeateable Squirrel Girl (2015) #38\",\n        \"The Unbeateable Squirrel Girl(2015) #39\"\n      ]\n    },\n    {\n      \"character\": \"Squirrel Girl\",\n      \"comics\": [\n        \"The Unbeateable Squirrel Girl (2015) #38\",\n        \"The Unbeateable Squirrel Girl(2015) #39\"\n      ]\n    }\n  ]\n}"
+						},
+						{
+							"name": "Invalid hero name supplied",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/characters/:hero",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"characters",
+										":hero"
+									],
+									"variable": [
+										{
+											"key": "hero",
+											"value": "id dolor",
+											"description": "(Required) The name of the marvel superhero"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Provided hero not found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/characters/:hero",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"characters",
+										":hero"
+									],
+									"variable": [
+										{
+											"key": "hero",
+											"value": "id dolor",
+											"description": "(Required) The name of the marvel superhero"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Internal server error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/characters/:hero",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"characters",
+										":hero"
+									],
+									"variable": [
+										{
+											"key": "hero",
+											"value": "id dolor",
+											"description": "(Required) The name of the marvel superhero"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Gateway timeout",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/characters/:hero",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"characters",
+										":hero"
+									],
+									"variable": [
+										{
+											"key": "hero",
+											"value": "id dolor",
+											"description": "(Required) The name of the marvel superhero"
+										}
+									]
+								}
+							},
+							"status": "Gateway Timeout",
+							"code": 504,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			],
+			"description": "Everything about Marvel characters"
+		},
+		{
+			"name": "marvel-api",
+			"item": [
+				{
+					"name": "Characters request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://gateway.marvel.com:443/v1/public/characters?name=Iron Man&apikey=7e338f5753e3bbe361f0194ea06b63bf",
+							"protocol": "https",
+							"host": [
+								"gateway",
+								"marvel",
+								"com"
+							],
+							"port": "443",
+							"path": [
+								"v1",
+								"public",
+								"characters"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Iron Man"
+								},
+								{
+									"key": "apikey",
+									"value": "7e338f5753e3bbe361f0194ea06b63bf"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Collaborators request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://gateway.marvel.com:443/v1/public/characters/:hero/comics?apikey=DEFAUTL_API_KEY",
+							"protocol": "https",
+							"host": [
+								"gateway",
+								"marvel",
+								"com"
+							],
+							"port": "443",
+							"path": [
+								"v1",
+								"public",
+								"characters",
+								":hero",
+								"comics"
+							],
+							"query": [
+								{
+									"key": "apikey",
+									"value": "DEFAUTL_API_KEY"
+								}
+							],
+							"variable": [
+								{
+									"key": "hero",
+									"value": "Iron Man"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost/marvel",
+			"type": "string"
+		}
+	]
+}
