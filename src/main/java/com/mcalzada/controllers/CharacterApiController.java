@@ -1,13 +1,16 @@
 package com.mcalzada.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mcalzada.model.entity.Character;
 import com.mcalzada.model.CharactersResponse;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import java.io.IOException;
+import com.mcalzada.service.CharacterService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2022-03-15T06:36:53.230Z")
 
 @Controller
-@Api(value = "Character", description = "the Character API")
 @RequestMapping(value = "/marvel")
 @Validated
 @Log4j2
@@ -30,40 +32,35 @@ public class CharacterApiController
 {
 
     private ObjectMapper objectMapper;
+    private CharacterService characterService;
 
     @Autowired
-    public CharacterApiController(ObjectMapper objectMapper)
+    public CharacterApiController(ObjectMapper objectMapper, CharacterService marvelGateway)
     {
         this.objectMapper = objectMapper;
+        this.characterService = marvelGateway;
     }
 
-    @ApiOperation(
-          value = "Get charactere by name",
-          nickname = "getCharactersByName",
-          notes = "Returns other heroes interactions with requested character",
-          response = CharactersResponse.class,
+    @Operation(
+          summary = "Returns other heroes interactions with requested character",
           tags = {"character-api-controller",}
     )
     @ApiResponses(value = {
-          @ApiResponse(code = 200, message = "successful operation", response = CharactersResponse.class),
-          @ApiResponse(code = 400, message = "Invalid hero name supplied"),
-          @ApiResponse(code = 404, message = "Provided hero not found"),
-          @ApiResponse(code = 500, message = "Internal server error"),
-          @ApiResponse(code = 504, message = "Gateway timeout")})
+          @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
+                schema = @Schema(implementation = CharactersResponse.class))}),
+          @ApiResponse(responseCode = "400", description = "Invalid hero name supplied"),
+          @ApiResponse(responseCode = "404", description = "Provided hero not found"),
+          @ApiResponse(responseCode = "500", description = "Internal server error"),
+          @ApiResponse(responseCode = "504", description = "Gateway timeout")})
     @GetMapping(value = "/characters/{hero}", produces = {"application/json"})
     public CompletableFuture<ResponseEntity<CharactersResponse>> getCharactersByName(
-          @ApiParam(value = "The name of the marvel superhero", required = true) @PathVariable("hero") String hero)
+          @Parameter(description = "The name of the marvel superhero", required = true) @PathVariable("hero") String hero)
     {
-        try
+        Optional<Character> optionalCharacter = characterService.findCharacterByName(hero);
+        if (optionalCharacter.isPresent())
         {
-            return CompletableFuture.completedFuture(
-                  new ResponseEntity<>(objectMapper.readValue("{\"empty\": false}", CharactersResponse.class),
-                        HttpStatus.NOT_IMPLEMENTED));
+            return CompletableFuture.completedFuture(new ResponseEntity(optionalCharacter.get(), HttpStatus.OK));
         }
-        catch (IOException e)
-        {
-            log.error("Couldn't serialize response for content type application/json", e);
-            return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
-        }
+        return CompletableFuture.completedFuture(new ResponseEntity("Not Found", HttpStatus.NOT_FOUND));
     }
 }
