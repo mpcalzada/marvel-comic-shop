@@ -1,6 +1,7 @@
 package com.mcalzada.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mcalzada.controllers.exception.ApiException;
 import com.mcalzada.model.CharactersResponse;
 import com.mcalzada.service.CharacterService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -58,9 +59,13 @@ public class CharacterApiController
         {
             return CompletableFuture.completedFuture(new ResponseEntity(characterService.findCharacterByName(hero), HttpStatus.OK));
         }
+        catch (ApiException e)
+        {
+            return CompletableFuture.completedFuture(new ResponseEntity(e, HttpStatus.valueOf(e.getCode())));
+        }
         catch (Exception e)
         {
-            return CompletableFuture.completedFuture(new ResponseEntity("Not Found", HttpStatus.NOT_FOUND));
+            return CompletableFuture.completedFuture(new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR));
         }
     }
 }

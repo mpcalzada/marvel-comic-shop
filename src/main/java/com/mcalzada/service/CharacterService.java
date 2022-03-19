@@ -1,5 +1,6 @@
 package com.mcalzada.service;
 
+import com.mcalzada.controllers.exception.ApiException;
 import com.mcalzada.model.CharactersResponse;
 import com.mcalzada.model.CharactersResponse.CharacterResponse;
 import com.mcalzada.model.entity.Character;
@@ -25,13 +26,12 @@ public class CharacterService
         this.characterRepository = characterRepository;
     }
 
-    public CharactersResponse findCharacterByName(String name)
+    public CharactersResponse findCharacterByName(String name) throws ApiException
     {
         Optional<Character> characterDetail = characterRepository.findFirstByName(name);
         if (!characterDetail.isPresent())
         {
-            // FIXME: 19/03/2022 This must be an API exception
-            throw new IllegalArgumentException("Not found");
+            throw new ApiException(404, "Hero couldn't be found in the system");
         }
 
         HashSet<CharacterResponse> secondaryCharacters = new HashSet<>();
@@ -47,21 +47,10 @@ public class CharacterService
             }
         }
 
-        // FIXME: 19/03/2022 Fix or remove
-        //HashMap<Object, Object> charactersPerComic = characterDetail.get().getComics().stream().map(Comic::getCharacters)
-        //      .collect(HashMap::new, (m, ch) -> m.put(ch.), Map::putAll);
-        //HashMap<Object, Object> charactersPerComic = characterDetail.get().getComics().stream()
-        //      .collect(HashMap::new, (m, c) -> m.put(c.getName(), c.getCharacters()), Map::putAll);
-
         return CharactersResponse.builder()
               .lastSync(characterDetail.get().getUpdatedAt())
               .characters(new ArrayList<>(secondaryCharacters))
               .build();
-    }
-
-    public void createCharacter(Character character)
-    {
-        characterRepository.save(character);
     }
 
     public void createCharacters(List<Character> comicCharacters)
