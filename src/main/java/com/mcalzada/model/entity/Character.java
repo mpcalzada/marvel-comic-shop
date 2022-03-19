@@ -8,7 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Version;
 import javax.validation.Valid;
 import lombok.Builder;
@@ -34,8 +35,11 @@ public class Character
 
     @Valid
     @JsonProperty("comics")
-    @OneToMany
-    @JoinColumn(referencedColumnName = "id", name = "character_id")
+    @ManyToMany
+    @JoinTable(
+          name = "character_comics",
+          joinColumns = @JoinColumn(name = "character_id"),
+          inverseJoinColumns = @JoinColumn(name = "comic_id"))
     private List<Comic> comics = null;
 
     @Version
