@@ -13,6 +13,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -24,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 @Service
+@Log4j2
 @EnableScheduling
 public class APISynchronizerService
 {
@@ -51,22 +54,28 @@ public class APISynchronizerService
     @EventListener
     public void onApplicationEvent(ContextRefreshedEvent event)
     {
-        this.synchronize();
+        this.synchronizeExpiredCharacters();
     }
 
     @Scheduled(cron = "${synchronization.crontab}")
-    public void synchronize()
+    public void synchronizeExpiredCharacters()
     {
-        // FIXME: 18/03/2022 This should only load those heros whom expired
-        for (String hero : requiredHeros)
+        for (String hero : requiredHeros.stream().filter(characterService::characterUpToDate).collect(Collectors.toList()))
         {
-            Long ts = Instant.now().getEpochSecond();
-            ApiCharacterResponse apiCharacterResponse = this.marvelGateway.getCharacterByName(hero, publicApiKey, getHash(ts), ts.toString());
-            for (ApiCharacterResult result : apiCharacterResponse.getData().getResults())
-            {
-                Character character = result.buildCharacter();
-                this.synchronizeComics(character);
-            }
+            synchronizeHero(hero);
+        }
+    }
+
+    @Async
+    public void synchronizeHero(String heroName)
+    {
+        log.debug("Starting sync for hero {} ", heroName);
+        Long ts = Instant.now().getEpochSecond();
+        ApiCharacterResponse apiCharacterResponse = this.marvelGateway.getCharacterByName(heroName, publicApiKey, getHash(ts), ts.toString());
+        for (ApiCharacterResult result : apiCharacterResponse.getData().getResults())
+        {
+            Character character = result.buildCharacter();
+            this.synchronizeComics(character);
         }
     }
 

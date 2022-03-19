@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.Version;
 import javax.validation.Valid;
 import lombok.Builder;
 import org.springframework.validation.annotation.Validated;
@@ -51,6 +50,7 @@ public class Character
 
     public Character()
     {
+        this.updatedAt = LocalDateTime.now();
     }
 
     public Character(Long id, String name, List<Comic> comics, LocalDateTime updatedAt, LocalDateTime createdAt)
@@ -58,7 +58,7 @@ public class Character
         this.id = id;
         this.name = name;
         this.comics = comics;
-        this.updatedAt = updatedAt;
+        this.updatedAt = LocalDateTime.now();
         this.createdAt = createdAt;
     }
 
@@ -92,7 +92,7 @@ public class Character
         this.comics = comics;
     }
 
-    public boolean expired()
+    public boolean isExpiredEntity()
     {
         return LocalDateTime.now().minusHours(23).isAfter(updatedAt);
     }

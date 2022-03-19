@@ -33,4 +33,10 @@ public class CharacterService
     {
         characterRepository.saveAll(comicCharacters);
     }
+
+    public boolean characterUpToDate(String heroName)
+    {
+        Optional<Character> foundedHero = characterRepository.findFirstByName(heroName);
+        return !foundedHero.isPresent() || foundedHero.get().isExpiredEntity();
+    }
 }

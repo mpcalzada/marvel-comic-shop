@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.Version;
 import javax.validation.Valid;
 import lombok.Builder;
 
@@ -43,7 +42,7 @@ public class Collaborator
 
     public Collaborator()
     {
-
+        this.updatedAt = LocalDateTime.now();
     }
 
     public Collaborator(Long id, String name, String role, List<Comic> comics, LocalDateTime updatedAt, LocalDateTime createdAt)
@@ -52,7 +51,7 @@ public class Collaborator
         this.name = name;
         this.role = role;
         this.comics = comics;
-        this.updatedAt = updatedAt;
+        this.updatedAt = LocalDateTime.now();
         this.createdAt = createdAt;
     }
 
