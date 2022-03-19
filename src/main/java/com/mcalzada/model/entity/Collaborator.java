@@ -55,9 +55,19 @@ public class Collaborator
         this.createdAt = createdAt;
     }
 
-    public void setId(Long id)
+    public long getId()
+    {
+        return id;
+    }
+
+    public void setId(long id)
     {
         this.id = id;
+    }
+
+    public String getName()
+    {
+        return name;
     }
 
     public void setName(String name)
@@ -65,9 +75,19 @@ public class Collaborator
         this.name = name;
     }
 
+    public String getRole()
+    {
+        return role;
+    }
+
     public void setRole(String role)
     {
         this.role = role;
+    }
+
+    public List<Comic> getComics()
+    {
+        return comics;
     }
 
     public void setComics(List<Comic> comics)
@@ -75,9 +95,19 @@ public class Collaborator
         this.comics = comics;
     }
 
+    public LocalDateTime getUpdatedAt()
+    {
+        return updatedAt;
+    }
+
     public void setUpdatedAt(LocalDateTime updatedAt)
     {
         this.updatedAt = updatedAt;
+    }
+
+    public LocalDateTime getCreatedAt()
+    {
+        return createdAt;
     }
 
     public void setCreatedAt(LocalDateTime createdAt)
