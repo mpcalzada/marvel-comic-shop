@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.Version;
 import javax.validation.Valid;
 import lombok.Builder;
 import org.springframework.validation.annotation.Validated;
@@ -27,7 +27,7 @@ public class Character
     @Id
     @JsonIgnore
     @Column(name = "id")
-    private Long id;
+    private long id;
 
     @JsonProperty("character")
     @Column(name = "name")
@@ -35,14 +35,13 @@ public class Character
 
     @Valid
     @JsonProperty("comics")
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
           name = "character_comics",
           joinColumns = @JoinColumn(name = "character_id"),
           inverseJoinColumns = @JoinColumn(name = "comic_id"))
     private List<Comic> comics = null;
 
-    @Version
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
@@ -51,6 +50,7 @@ public class Character
 
     public Character()
     {
+        this.updatedAt = LocalDateTime.now();
     }
 
     public Character(Long id, String name, List<Comic> comics, LocalDateTime updatedAt, LocalDateTime createdAt)
@@ -58,7 +58,7 @@ public class Character
         this.id = id;
         this.name = name;
         this.comics = comics;
-        this.updatedAt = updatedAt;
+        this.updatedAt = LocalDateTime.now();
         this.createdAt = createdAt;
     }
 
@@ -92,7 +92,7 @@ public class Character
         this.comics = comics;
     }
 
-    public boolean expired()
+    public boolean isExpiredEntity()
     {
         return LocalDateTime.now().minusHours(23).isAfter(updatedAt);
     }
