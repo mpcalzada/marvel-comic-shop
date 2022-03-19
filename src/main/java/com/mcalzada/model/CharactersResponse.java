@@ -2,26 +2,37 @@ package com.mcalzada.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
-import com.mcalzada.model.entity.Character;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.validation.Valid;
+import lombok.Builder;
+import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
 /**
  * CharactersResponse
  */
 @Validated
-
+@Data
+@Builder
 public class CharactersResponse
 {
 
     @JsonProperty("last_sync")
-    private Instant lastSync = null;
+    private LocalDateTime lastSync = null;
 
     @JsonProperty("characters")
     @Valid
-    private List<Character> characters = null;
+    private List<CharacterResponse> characters = null;
+
+    @Data
+    @Builder
+    public static class CharacterResponse
+    {
+
+        private String name;
+        private List<String> comics;
+    }
 
     @Override
     public String toString()

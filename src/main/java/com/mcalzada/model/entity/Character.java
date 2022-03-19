@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Version;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.validation.Valid;
 import lombok.Builder;
 import org.springframework.validation.annotation.Validated;
@@ -26,7 +27,7 @@ public class Character
     @Id
     @JsonIgnore
     @Column(name = "id")
-    private Long id;
+    private long id;
 
     @JsonProperty("character")
     @Column(name = "name")
@@ -34,11 +35,13 @@ public class Character
 
     @Valid
     @JsonProperty("comics")
-    @OneToMany
-    @JoinColumn(referencedColumnName = "id", name = "character_id")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+          name = "character_comics",
+          joinColumns = @JoinColumn(name = "character_id"),
+          inverseJoinColumns = @JoinColumn(name = "comic_id"))
     private List<Comic> comics = null;
 
-    @Version
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
@@ -47,6 +50,7 @@ public class Character
 
     public Character()
     {
+        this.updatedAt = LocalDateTime.now();
     }
 
     public Character(Long id, String name, List<Comic> comics, LocalDateTime updatedAt, LocalDateTime createdAt)
@@ -54,16 +58,16 @@ public class Character
         this.id = id;
         this.name = name;
         this.comics = comics;
-        this.updatedAt = updatedAt;
+        this.updatedAt = LocalDateTime.now();
         this.createdAt = createdAt;
     }
 
-    public Long getId()
+    public long getId()
     {
         return id;
     }
 
-    public void setId(Long id)
+    public void setId(long id)
     {
         this.id = id;
     }
@@ -88,9 +92,35 @@ public class Character
         this.comics = comics;
     }
 
-    public boolean expired()
+    public LocalDateTime getUpdatedAt()
+    {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt)
+    {
+        this.updatedAt = updatedAt;
+    }
+
+    public LocalDateTime getCreatedAt()
+    {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt)
+    {
+        this.createdAt = createdAt;
+    }
+
+    public boolean isExpiredEntity()
     {
         return LocalDateTime.now().minusHours(23).isAfter(updatedAt);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "{\"name\"=\"" + name + "\" ,\"comics\"=[" + comics + "]}";
     }
 }
 

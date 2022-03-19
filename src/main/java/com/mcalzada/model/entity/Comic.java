@@ -1,8 +1,10 @@
 package com.mcalzada.model.entity;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import lombok.Builder;
 
 @Entity
@@ -16,15 +18,23 @@ public class Comic
     @Column
     private String name;
 
+    @ManyToMany(mappedBy = "comics")
+    List<Character> characters;
+
+    @ManyToMany(mappedBy = "comics")
+    List<Collaborator> collaborators;
+
     public Comic()
     {
 
     }
 
-    public Comic(Long id, String name)
+    public Comic(Long id, String name, List<Character> characters, List<Collaborator> collaborators)
     {
         this.id = id;
         this.name = name;
+        this.characters = characters;
+        this.collaborators = collaborators;
     }
 
     public Long getId()
@@ -45,5 +55,31 @@ public class Comic
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    public List<Character> getCharacters()
+    {
+        return characters;
+    }
+
+    public void setCharacters(List<Character> characters)
+    {
+        this.characters = characters;
+    }
+
+    public List<Collaborator> getCollaborators()
+    {
+        return collaborators;
+    }
+
+    public void setCollaborators(List<Collaborator> collaborators)
+    {
+        this.collaborators = collaborators;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "{\"name\"=\"" + name + "\"}";
     }
 }

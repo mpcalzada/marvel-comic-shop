@@ -1,12 +1,21 @@
 package com.mcalzada.model.api;
 
+import com.mcalzada.model.entity.Character;
+import com.mcalzada.model.entity.Collaborator;
 import com.mcalzada.model.entity.Comic;
+import java.util.ArrayList;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ApiComicsResponse
 {
 
@@ -14,11 +23,14 @@ public class ApiComicsResponse
     private String status;
     private String copyright;
     private String etag;
-    private Data data;
+    private ApiComicData data;
 
     @Getter
     @Setter
-    public static class Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class ApiComicData
     {
 
         private Long offset;
@@ -30,6 +42,9 @@ public class ApiComicsResponse
 
     @Getter
     @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
     public static class Results
     {
 
@@ -39,7 +54,8 @@ public class ApiComicsResponse
         private String format;
         private String description;
         private String modified;
-        private Creators creators;
+        private ApiCreators creators;
+        private ApiCharacter characters;
 
         public Comic buildComic()
         {
@@ -49,21 +65,74 @@ public class ApiComicsResponse
 
     @Getter
     @Setter
-    public static class Creators
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class ApiCharacter
     {
 
         private Integer available;
         private String collectionURI;
-        private List<Items> items;
+        private List<Item> items;
+
+        public List<Character> buildCharacter(List<Comic> comics)
+        {
+            List<Character> characters = new ArrayList<>();
+            for (Item item : items)
+            {
+                characters.add(Character.builder()
+                      .id(item.getId())
+                      .name(item.name)
+                      .comics(comics)
+                      .build());
+            }
+            return characters;
+        }
     }
 
     @Getter
     @Setter
-    public static class Items
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class ApiCreators
+    {
+
+        private Integer available;
+        private String collectionURI;
+        private List<Item> items;
+
+        public List<Collaborator> buildCollaborators(List<Comic> comics)
+        {
+            List<Collaborator> collaborators = new ArrayList<>();
+            for (Item item : items)
+            {
+                collaborators.add(Collaborator.builder()
+                      .id(item.getId())
+                      .name(item.name)
+                      .role(item.role)
+                      .comics(comics)
+                      .build());
+            }
+            return collaborators;
+        }
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class Item
     {
 
         private String resourceURI;
         private String name;
         private String role;
+
+        public Long getId()
+        {
+            return Long.parseLong(resourceURI.replaceAll("^[\\w\\W]+/", ""));
+        }
     }
 }
