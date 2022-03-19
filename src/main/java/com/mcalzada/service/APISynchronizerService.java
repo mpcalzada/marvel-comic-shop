@@ -96,22 +96,6 @@ public class APISynchronizerService
             characterService.createCharacters(comicCharacters);
             collaboratorService.createCollaborators(comicCollaborators);
         }
-        character.setComics(comics);
-        characterService.createCharacter(character);
-    }
-
-    @Async
-    public void synchronizeCreators(Comic comic)
-    {
-        Long ts = Instant.now().getEpochSecond();
-        ApiCreatorResponse apiCreatorResponse = this.marvelGateway.getComicCreators(comic.getId(), publicApiKey, getHash(ts), ts.toString());
-        for (ApiCreatorResponse.ApiCreatorResult result : apiCreatorResponse.getApiCharacterData().getResults())
-        {
-            Collaborator collaborator = result.buildCreator();
-            collaborator.setComics(Collections.singletonList(comic));
-            collaboratorService.createCollaborator(collaborator);
-        }
-
     }
 
     private String getHash(Long timeStamp)
