@@ -40,7 +40,7 @@ public class CollaboratorService
         }
 
         return CollaboratorResponse.builder()
-              .lastSync(LocalDateTime.now())
+              .lastSync(collaborators.stream().findAny().orElse(Collaborator.builder().updatedAt(LocalDateTime.now()).build()).getUpdatedAt())
               .colorist(collaboratorsPerRoles.get("colorist"))
               .editors(collaboratorsPerRoles.get("editor"))
               .writers(collaboratorsPerRoles.get("writer"))

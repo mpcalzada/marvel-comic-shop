@@ -1,7 +1,6 @@
 package com.mcalzada.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mcalzada.model.entity.Character;
 import com.mcalzada.model.CharactersResponse;
 import com.mcalzada.service.CharacterService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,7 +9,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,11 +54,13 @@ public class CharacterApiController
     public CompletableFuture<ResponseEntity<CharactersResponse>> getCharactersByName(
           @Parameter(description = "The name of the marvel superhero", required = true) @PathVariable("hero") String hero)
     {
-        Optional<Character> optionalCharacter = characterService.findCharacterByName(hero);
-        if (optionalCharacter.isPresent())
+        try
         {
-            return CompletableFuture.completedFuture(new ResponseEntity(optionalCharacter.get(), HttpStatus.OK));
+            return CompletableFuture.completedFuture(new ResponseEntity(characterService.findCharacterByName(hero), HttpStatus.OK));
         }
-        return CompletableFuture.completedFuture(new ResponseEntity("Not Found", HttpStatus.NOT_FOUND));
+        catch (Exception e)
+        {
+            return CompletableFuture.completedFuture(new ResponseEntity("Not Found", HttpStatus.NOT_FOUND));
+        }
     }
 }
