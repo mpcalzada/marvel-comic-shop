@@ -1,8 +1,10 @@
 package com.mcalzada.model.entity;
 
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import lombok.Builder;
 
 @Entity
@@ -15,6 +17,12 @@ public class Comic
 
     @Column
     private String name;
+
+    @ManyToMany(mappedBy = "comics")
+    Set<Character> characters;
+
+    @ManyToMany(mappedBy = "comics")
+    Set<Collaborator> collaborators;
 
     public Comic()
     {
