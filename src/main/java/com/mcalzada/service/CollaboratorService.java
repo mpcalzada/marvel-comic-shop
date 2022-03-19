@@ -1,6 +1,7 @@
 package com.mcalzada.service;
 
 import com.google.gson.internal.LinkedTreeMap;
+import com.mcalzada.controllers.exception.ApiException;
 import com.mcalzada.model.CollaboratorResponse;
 import com.mcalzada.model.entity.Collaborator;
 import com.mcalzada.model.entity.Comic;
@@ -25,9 +26,13 @@ public class CollaboratorService
         this.comicService = comicService;
     }
 
-    public CollaboratorResponse findCollaboratorByHero(String name)
+    public CollaboratorResponse findCollaboratorByHero(String name) throws ApiException
     {
         List<Comic> comics = comicService.searchComicsByCharacterName(name);
+        if (comics.isEmpty())
+        {
+            throw new ApiException(404, "Comics not found for requested character name");
+        }
         List<Collaborator> collaborators = collaboratorRepository.findDistinctNameByComicsIn(comics);
 
         LinkedTreeMap<String, List<String>> collaboratorsPerRoles = new LinkedTreeMap<>();
@@ -40,16 +45,11 @@ public class CollaboratorService
         }
 
         return CollaboratorResponse.builder()
-              .lastSync(LocalDateTime.now())
+              .lastSync(collaborators.stream().findAny().orElse(Collaborator.builder().updatedAt(LocalDateTime.now()).build()).getUpdatedAt())
               .colorist(collaboratorsPerRoles.get("colorist"))
               .editors(collaboratorsPerRoles.get("editor"))
               .writers(collaboratorsPerRoles.get("writer"))
               .build();
-    }
-
-    public void createCollaborator(Collaborator collaborator)
-    {
-        collaboratorRepository.save(collaborator);
     }
 
     public void createCollaborators(List<Collaborator> collaborator)

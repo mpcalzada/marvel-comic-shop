@@ -1,5 +1,6 @@
 package com.mcalzada.controllers;
 
+import com.mcalzada.controllers.exception.ApiException;
 import com.mcalzada.model.CollaboratorResponse;
 import com.mcalzada.service.CollaboratorService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -56,9 +57,13 @@ public class CollaboratorApiController
         {
             return CompletableFuture.completedFuture(new ResponseEntity(collaboratorService.findCollaboratorByHero(hero), HttpStatus.OK));
         }
+        catch (ApiException e)
+        {
+            return CompletableFuture.completedFuture(new ResponseEntity(e.toString(), HttpStatus.valueOf(e.getCode())));
+        }
         catch (Exception e)
         {
-            return CompletableFuture.completedFuture(new ResponseEntity("Something bad happened", HttpStatus.INTERNAL_SERVER_ERROR));
+            return CompletableFuture.completedFuture(new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR));
         }
     }
 }

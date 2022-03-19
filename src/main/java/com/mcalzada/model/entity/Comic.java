@@ -1,6 +1,6 @@
 package com.mcalzada.model.entity;
 
-import java.util.Set;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -19,17 +19,17 @@ public class Comic
     private String name;
 
     @ManyToMany(mappedBy = "comics")
-    Set<Character> characters;
+    List<Character> characters;
 
     @ManyToMany(mappedBy = "comics")
-    Set<Collaborator> collaborators;
+    List<Collaborator> collaborators;
 
     public Comic()
     {
 
     }
 
-    public Comic(Long id, String name, Set<Character> characters, Set<Collaborator> collaborators)
+    public Comic(Long id, String name, List<Character> characters, List<Collaborator> collaborators)
     {
         this.id = id;
         this.name = name;
@@ -55,5 +55,31 @@ public class Comic
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    public List<Character> getCharacters()
+    {
+        return characters;
+    }
+
+    public void setCharacters(List<Character> characters)
+    {
+        this.characters = characters;
+    }
+
+    public List<Collaborator> getCollaborators()
+    {
+        return collaborators;
+    }
+
+    public void setCollaborators(List<Collaborator> collaborators)
+    {
+        this.collaborators = collaborators;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "{\"name\"=\"" + name + "\"}";
     }
 }

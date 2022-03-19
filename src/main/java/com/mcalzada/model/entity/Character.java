@@ -62,12 +62,12 @@ public class Character
         this.createdAt = createdAt;
     }
 
-    public Long getId()
+    public long getId()
     {
         return id;
     }
 
-    public void setId(Long id)
+    public void setId(long id)
     {
         this.id = id;
     }
@@ -92,9 +92,35 @@ public class Character
         this.comics = comics;
     }
 
+    public LocalDateTime getUpdatedAt()
+    {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt)
+    {
+        this.updatedAt = updatedAt;
+    }
+
+    public LocalDateTime getCreatedAt()
+    {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt)
+    {
+        this.createdAt = createdAt;
+    }
+
     public boolean isExpiredEntity()
     {
         return LocalDateTime.now().minusHours(23).isAfter(updatedAt);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "{\"name\"=\"" + name + "\" ,\"comics\"=[" + comics + "]}";
     }
 }
 
