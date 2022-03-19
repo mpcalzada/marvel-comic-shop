@@ -1,9 +1,18 @@
 version: "3.9"
+
+networks:
+  comics-api-net:
+    external: false
+    name: comics-api-net
+
 services:
   db:
     image: postgres:13-alpine
     volumes:
       - db-volume:/var/lib/postgresql/data/pgdata
+    networks:
+      - comics-api-net
+    container_name: comics-postgres
     restart: always
     ports:
       - "5432:5432"
@@ -12,16 +21,15 @@ services:
       POSTGRES_PASSWORD: postgres
       PGDATA: /var/lib/postgresql/data/pgdata
 
-
-  # redis:
-  #   image: redis:5
-  #   restart: always
-  #   privileged: true
-  #   ports:
-  #     - 6379:6379
-  #   volumes:
-  #     - redis-volume:/data
+  comics-service:
+    depends_on:
+      - db
+    networks:
+      - comics-api-net
+    container_name: comics-api
+    image: mpcalzada/comics-api:1.0
+    ports:
+      - "80:80"
 
 volumes:
   db-volume:
-  # redis-volume:
