@@ -1,9 +1,10 @@
 package com.mcalzada.service;
 
-import com.mcalzada.model.entity.Collaborator;
 import com.mcalzada.model.CollaboratorResponse;
+import com.mcalzada.model.entity.Collaborator;
 import com.mcalzada.repository.CollaboratorRepository;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +30,10 @@ public class CollaboratorService
     public void createCollaborator(Collaborator collaborator)
     {
         collaboratorRepository.save(collaborator);
+    }
+
+    public void createCollaborators(List<Collaborator> collaborator)
+    {
+        collaboratorRepository.saveAll(collaborator);
     }
 }

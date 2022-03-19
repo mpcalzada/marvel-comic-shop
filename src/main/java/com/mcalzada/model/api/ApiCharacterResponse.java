@@ -14,7 +14,7 @@ public class ApiCharacterResponse
     private String status;
     private String copyright;
     private String etag;
-    private ApiCharacterData apiCharacterData;
+    private ApiCharacterData data;
 
     @Getter
     @Setter

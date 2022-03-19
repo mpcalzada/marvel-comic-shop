@@ -6,14 +6,17 @@ import com.mcalzada.model.api.ApiCharacterResponse.ApiCharacterResult;
 import com.mcalzada.model.api.ApiComicsResponse;
 import com.mcalzada.model.api.ApiCreatorResponse;
 import com.mcalzada.model.entity.Character;
-import com.mcalzada.model.entity.Comic;
 import com.mcalzada.model.entity.Collaborator;
+import com.mcalzada.model.entity.Comic;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -45,14 +48,21 @@ public class APISynchronizerService
         this.collaboratorService = collaboratorService;
     }
 
+    @EventListener
+    public void onApplicationEvent(ContextRefreshedEvent event)
+    {
+        this.synchronize();
+    }
+
     @Scheduled(cron = "${synchronization.crontab}")
     public void synchronize()
     {
+        // FIXME: 18/03/2022 This should only load those heros whom expired
         for (String hero : requiredHeros)
         {
             Long ts = Instant.now().getEpochSecond();
             ApiCharacterResponse apiCharacterResponse = this.marvelGateway.getCharacterByName(hero, publicApiKey, getHash(ts), ts.toString());
-            for (ApiCharacterResult result : apiCharacterResponse.getApiCharacterData().getResults())
+            for (ApiCharacterResult result : apiCharacterResponse.getData().getResults())
             {
                 Character character = result.buildCharacter();
                 this.synchronizeComics(character);
@@ -70,7 +80,12 @@ public class APISynchronizerService
         {
             Comic comic = result.buildComic();
             comics.add(comic);
-            synchronizeCreators(comic);
+
+            List<Character> comicCharacters = result.getCharacters().buildCharacter(comics);
+            List<Collaborator> comicCollaborators = result.getCreators().buildCollaborators(comics);
+
+            characterService.createCharacters(comicCharacters);
+            collaboratorService.createCollaborators(comicCollaborators);
         }
         character.setComics(comics);
         characterService.createCharacter(character);
@@ -84,6 +99,7 @@ public class APISynchronizerService
         for (ApiCreatorResponse.ApiCreatorResult result : apiCreatorResponse.getApiCharacterData().getResults())
         {
             Collaborator collaborator = result.buildCreator();
+            collaborator.setComics(Collections.singletonList(comic));
             collaboratorService.createCollaborator(collaborator);
         }
 

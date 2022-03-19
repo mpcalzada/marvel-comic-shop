@@ -29,10 +29,12 @@ public class Comic
 
     }
 
-    public Comic(Long id, String name)
+    public Comic(Long id, String name, Set<Character> characters, Set<Collaborator> collaborators)
     {
         this.id = id;
         this.name = name;
+        this.characters = characters;
+        this.collaborators = collaborators;
     }
 
     public Long getId()

@@ -2,6 +2,7 @@ package com.mcalzada.service;
 
 import com.mcalzada.model.entity.Character;
 import com.mcalzada.repository.CharacterRepository;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,4 +29,8 @@ public class CharacterService
         characterRepository.save(character);
     }
 
+    public void createCharacters(List<Character> comicCharacters)
+    {
+        characterRepository.saveAll(comicCharacters);
+    }
 }

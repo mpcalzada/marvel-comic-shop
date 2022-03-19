@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -27,7 +28,7 @@ public class Character
     @Id
     @JsonIgnore
     @Column(name = "id")
-    private Long id;
+    private long id;
 
     @JsonProperty("character")
     @Column(name = "name")
@@ -35,14 +36,13 @@ public class Character
 
     @Valid
     @JsonProperty("comics")
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
           name = "character_comics",
           joinColumns = @JoinColumn(name = "character_id"),
           inverseJoinColumns = @JoinColumn(name = "comic_id"))
     private List<Comic> comics = null;
 
-    @Version
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
