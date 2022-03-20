@@ -1,5 +1,6 @@
 package com.mcalzada.service;
 
+import com.mcalzada.model.entity.Collaborator;
 import com.mcalzada.model.entity.Comic;
 import com.mcalzada.repository.ComicRepository;
 import java.util.List;
@@ -23,4 +24,10 @@ public class ComicService
     {
         return comicRepository.findComicsByCharactersName(characterName);
     }
+
+    public void createComics(List<Comic> comics)
+    {
+        comicRepository.saveAll(comics);
+    }
+
 }
