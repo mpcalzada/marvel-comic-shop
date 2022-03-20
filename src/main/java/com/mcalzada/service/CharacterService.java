@@ -7,10 +7,9 @@ import com.mcalzada.model.entity.Character;
 import com.mcalzada.model.entity.Comic;
 import com.mcalzada.repository.CharacterRepository;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,22 +33,30 @@ public class CharacterService
             throw new ApiException(404, "Hero couldn't be found in the system");
         }
 
-        HashSet<CharacterResponse> secondaryCharacters = new HashSet<>();
+        HashMap<String, CharacterResponse> secondaryCharacters = new HashMap<>();
         for (Comic comic : characterDetail.get().getComics())
         {
             for (Character character : comic.getCharacters())
             {
-                CharacterResponse characterResponse = CharacterResponse.builder()
-                      .name(character.getName())
-                      .comics(character.getComics().stream().map(Comic::getName).collect(Collectors.toList()))
-                      .build();
-                secondaryCharacters.add(characterResponse);
+                if (!secondaryCharacters.containsKey(character.getName()))
+                {
+                    List<String> comics = new ArrayList<>();
+                    comics.add(comic.getName());
+                    secondaryCharacters.put(character.getName(), CharacterResponse.builder()
+                          .name(character.getName())
+                          .comics(comics)
+                          .build());
+                }
+                else
+                {
+                    secondaryCharacters.get(character.getName()).addComic(comic.getName());
+                }
             }
         }
 
         return CharactersResponse.builder()
               .lastSync(characterDetail.get().getUpdatedAt())
-              .characters(new ArrayList<>(secondaryCharacters))
+              .characters(new ArrayList<>(secondaryCharacters.values()))
               .build();
     }
 
