@@ -3,6 +3,7 @@ package com.mcalzada.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -35,11 +36,7 @@ public class Character
 
     @Valid
     @JsonProperty("comics")
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-          name = "character_comics",
-          joinColumns = @JoinColumn(name = "character_id"),
-          inverseJoinColumns = @JoinColumn(name = "comic_id"))
+    @ManyToMany(mappedBy = "characters", cascade = CascadeType.ALL)
     private List<Comic> comics = null;
 
     @Column(name = "updated_at")
@@ -50,6 +47,7 @@ public class Character
 
     public Character()
     {
+        comics = new ArrayList<>();
         this.updatedAt = LocalDateTime.now();
     }
 
@@ -115,6 +113,11 @@ public class Character
     public boolean isExpiredEntity()
     {
         return LocalDateTime.now().minusHours(23).isAfter(updatedAt);
+    }
+
+    public void addComic(Comic comic)
+    {
+        this.comics.add(comic);
     }
 
     @Override

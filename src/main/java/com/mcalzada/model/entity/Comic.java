@@ -1,9 +1,12 @@
 package com.mcalzada.model.entity;
 
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import lombok.Builder;
 
@@ -18,10 +21,18 @@ public class Comic
     @Column
     private String name;
 
-    @ManyToMany(mappedBy = "comics")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+          name = "character_comics",
+          joinColumns = @JoinColumn(name = "comic_id"),
+          inverseJoinColumns = @JoinColumn(name = "character_id"))
     List<Character> characters;
 
-    @ManyToMany(mappedBy = "comics")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+          name = "collaborator_comics",
+          joinColumns = @JoinColumn(name = "comic_id"),
+          inverseJoinColumns = @JoinColumn(name = "collaborator_id"))
     List<Collaborator> collaborators;
 
     public Comic()

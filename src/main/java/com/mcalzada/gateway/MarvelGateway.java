@@ -27,17 +27,10 @@ public interface MarvelGateway
           @PathVariable("ts") String ts
     );
 
-    @RequestMapping(method = RequestMethod.GET, value = "/characters/{characterId}/comics?apikey={apiKey}&hash={hash}&ts={ts}", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/characters/{characterId}/comics?limit=100&offset={offset}&apikey={apiKey}&hash={hash}&ts={ts}", produces = "application/json")
     ApiComicsResponse getComicsByCharacter(
           @PathVariable("characterId") Long characterId,
-          @PathVariable("apiKey") String apiKey,
-          @PathVariable("hash") String hash,
-          @PathVariable("ts") String ts
-    );
-
-    @RequestMapping(method = RequestMethod.GET, value = "/comics/{comicId}/creators?apikey={apiKey}&hash={hash}&ts={ts}", produces = "application/json")
-    ApiCreatorResponse getComicCreators(
-          @PathVariable("comicId") Long comicId,
+          @PathVariable("offset") Long offset,
           @PathVariable("apiKey") String apiKey,
           @PathVariable("hash") String hash,
           @PathVariable("ts") String ts

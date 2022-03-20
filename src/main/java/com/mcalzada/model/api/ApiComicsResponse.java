@@ -4,6 +4,7 @@ import com.mcalzada.model.entity.Character;
 import com.mcalzada.model.entity.Collaborator;
 import com.mcalzada.model.entity.Comic;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -59,7 +60,14 @@ public class ApiComicsResponse
 
         public Comic buildComic()
         {
-            return Comic.builder().id(this.id).name(this.title).build();
+            Comic comic = Comic.builder()
+                  .id(this.id)
+                  .name(this.title)
+                  .build();
+            comic.setCharacters(this.characters.buildCharacter(comic));
+            comic.setCollaborators(this.creators.buildCollaborators(comic));
+
+            return comic;
         }
     }
 
@@ -75,16 +83,18 @@ public class ApiComicsResponse
         private String collectionURI;
         private List<Item> items;
 
-        public List<Character> buildCharacter(List<Comic> comics)
+        public List<Character> buildCharacter(Comic comic)
         {
             List<Character> characters = new ArrayList<>();
             for (Item item : items)
             {
-                characters.add(Character.builder()
+                Character character = Character.builder()
                       .id(item.getId())
                       .name(item.name)
-                      .comics(comics)
-                      .build());
+                      .comics(Collections.singletonList(comic))
+                      .build();
+
+                characters.add(character);
             }
             return characters;
         }
@@ -102,17 +112,19 @@ public class ApiComicsResponse
         private String collectionURI;
         private List<Item> items;
 
-        public List<Collaborator> buildCollaborators(List<Comic> comics)
+        public List<Collaborator> buildCollaborators(Comic comic)
         {
             List<Collaborator> collaborators = new ArrayList<>();
             for (Item item : items)
             {
-                collaborators.add(Collaborator.builder()
+                Collaborator collaborator = Collaborator.builder()
                       .id(item.getId())
                       .name(item.name)
                       .role(item.role)
-                      .comics(comics)
-                      .build());
+                      .comics(Collections.singletonList(comic))
+                      .build();
+
+                collaborators.add(collaborator);
             }
             return collaborators;
         }

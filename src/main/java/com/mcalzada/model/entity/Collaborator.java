@@ -2,6 +2,7 @@ package com.mcalzada.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,11 +28,7 @@ public class Collaborator
 
     @Valid
     @JsonProperty("comics")
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-          name = "collaborator_comics",
-          joinColumns = @JoinColumn(name = "collaborator_id"),
-          inverseJoinColumns = @JoinColumn(name = "comic_id"))
+    @ManyToMany(mappedBy = "collaborators", cascade = CascadeType.ALL)
     private List<Comic> comics = null;
 
     @Column(name = "updated_at")
@@ -42,6 +39,7 @@ public class Collaborator
 
     public Collaborator()
     {
+        comics = new ArrayList<>();
         this.updatedAt = LocalDateTime.now();
     }
 

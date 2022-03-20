@@ -32,6 +32,12 @@ public class CharactersResponse
 
         private String name;
         private List<String> comics;
+
+        public void addComic(String comicName)
+        {
+            this.comics.add(comicName);
+        }
+
     }
 
     @Override
