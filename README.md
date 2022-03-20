@@ -33,16 +33,16 @@ aplicación
 - Se requiere contar con [Docker](https://www.docker.com)
 - Se requiere contar con [Maven](https://maven.apache.org)
 
-## 🚪 REST API definition
+## 🚪 Definición de endpoints REST
 
 Para conocer la documentación del API, puedes visitar el recurso del sitio `/marvel/api-docs` y `/marvel/`. Mediante documentación generada por OpenAPI, se
 puede conocer la definición de los endpoints y modelos que componen la API.
 
-### Context Path
+### Ruta de contexto
 
 Por defecto, la ruta de contexto para la API es `/marvel/`
 
-### Users endpoint
+### Endpoints disponibles
 
 Los endpoints disponibles en la aplicación son:
 
