@@ -21,8 +21,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2022-03-15T06:36:53.230Z")
-
+/**
+ * CharacterApiController is a JEE Bean built over the service layer for the application. This controller accepts HTTP connections with JSON bodies and
+ * performs operations in application services
+ *
+ * @author Marco Calzada
+ * @version 1.0
+ */
 @Controller
 @RequestMapping(value = "/marvel")
 @Validated
@@ -40,6 +45,10 @@ public class CharacterApiController
         this.characterService = marvelGateway;
     }
 
+    /**
+     * @param hero name of the marvel superhero
+     * @return list of other heroes interactions with requested character
+     */
     @Operation(
           summary = "Returns other heroes interactions with requested character",
           tags = {"character-api-controller",}

@@ -3,8 +3,12 @@ package com.mcalzada.controllers.exception;
 import com.google.gson.Gson;
 import lombok.Getter;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2022-03-15T06:36:53.230Z")
-
+/**
+ * ApiException is a class used for identifying expected errors and handling responses to API
+ *
+ * @author Marco Calzada
+ * @version 1.0
+ */
 public class ApiException extends Exception
 {
 

@@ -6,7 +6,6 @@ import com.mcalzada.model.api.ApiCharacterResponse;
 import com.mcalzada.model.api.ApiCharacterResponse.ApiCharacterResult;
 import com.mcalzada.model.api.ApiComicsResponse;
 import com.mcalzada.model.entity.Character;
-import com.mcalzada.model.entity.Collaborator;
 import com.mcalzada.model.entity.Comic;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
@@ -25,6 +24,13 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+/**
+ * APISynchronizerService is a JEE Bean built over the service layer for the application. Performs domain operations within the controller, gateway and
+ * repositories. For more information see {@link "https://developer.marvel.com"}
+ *
+ * @author Marco Calzada
+ * @version 1.0
+ */
 @Service
 @Log4j2
 @EnableScheduling
@@ -45,6 +51,12 @@ public class APISynchronizerService
     @Value("${marvel.api.private-api-key}")
     private String privateApiKey;
 
+    /**
+     * @param marvelGateway       Provided gatewoy for establishing communication with Marvel API
+     * @param comicService        {@link ComicService} implementation for performing comic operations
+     * @param characterService    {@link CharacterService} implementation for performing characters operations
+     * @param collaboratorService {@link CollaboratorService} implementation for performing collaborators operations
+     */
     @Autowired
     public APISynchronizerService(MarvelGateway marvelGateway, ComicService comicService, CharacterService characterService,
           CollaboratorService collaboratorService)
@@ -55,12 +67,20 @@ public class APISynchronizerService
         this.collaboratorService = collaboratorService;
     }
 
+    /**
+     * This event listener is triggered on SpringBoot application startup. After all beans have been loaded
+     *
+     * @param event Triggered event
+     */
     @EventListener
     public void onApplicationEvent(ContextRefreshedEvent event)
     {
         this.synchronizeExpiredCharacters();
     }
 
+    /**
+     * This method is invoked by SpringBoot scheduler {@link Scheduled} based on a cron expression configured in application.properties file
+     */
     @Scheduled(cron = "${synchronization.crontab}")
     public void synchronizeExpiredCharacters()
     {
@@ -70,6 +90,11 @@ public class APISynchronizerService
         }
     }
 
+    /**
+     * This method synchronizes the provided hero from Marvel API into the configured datasource
+     *
+     * @param heroName requested to be synced
+     */
     public void synchronizeHero(String heroName)
     {
         log.debug("Starting sync for hero {} ", heroName);
@@ -89,6 +114,12 @@ public class APISynchronizerService
         }
     }
 
+    /**
+     * Based on the character information, the method looks for the comics for the provided character and synchronize Collaborator/Comic/Character
+     * information from Marvel API into the repositories.
+     *
+     * @param character requested character
+     */
     public void synchronizeComics(Character character)
     {
         long totalCount = 0;
@@ -109,6 +140,11 @@ public class APISynchronizerService
         while (fetched < totalCount);
     }
 
+    /**
+     * This method was designed to be invoked by a {@link ExecutorService} and perform operations into the database
+     *
+     * @param apiComicsResponse Marvel API pre-processed response
+     */
     private void processComicResults(ApiComicsResponse apiComicsResponse)
     {
         List<Comic> comics = new ArrayList<>();
@@ -120,6 +156,12 @@ public class APISynchronizerService
         comicService.createComics(comics);
     }
 
+    /**
+     * Hashing algorithm for generating api-keys based on marvel docs. {@linkplain "https://developer.marvel.com/documentation/authorization"}
+     *
+     * @param timeStamp current timestamp
+     * @return generated hash.
+     */
     private String getHash(Long timeStamp)
     {
         String prevHash = String.format("%s%s%s", timeStamp, privateApiKey, publicApiKey);

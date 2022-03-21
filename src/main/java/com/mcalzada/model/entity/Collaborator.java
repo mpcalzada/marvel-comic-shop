@@ -14,6 +14,13 @@ import javax.persistence.ManyToMany;
 import javax.validation.Valid;
 import lombok.Builder;
 
+/**
+ * This class is a mapped entity for collaborator repository operations
+ *
+ * @author Marco Calzada
+ * @version 1.0
+ * @see com.mcalzada.repository.CollaboratorRepository
+ */
 @Entity
 @Builder
 public class Collaborator

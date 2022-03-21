@@ -20,8 +20,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@javax.annotation.Generated(value = "io.swagger.responseCodegen.languages.SpringresponseCodegen", date = "2022-03-15T06:36:53.230Z")
 
+/**
+ * CollaboratorApiController is a JEE Bean built over the service layer for the application. This controller accepts HTTP connections with JSON bodies and
+ * performs operations in application services
+ *
+ * @author Marco Calzada
+ * @version 1.0
+ */
 @Controller
 @Validated
 @Log4j2
@@ -38,6 +44,10 @@ public class CollaboratorApiController
     }
 
 
+    /**
+     * @param hero name of the marvel superhero
+     * @return list of collaborators that worked in requested character comics
+     */
     @Operation(
           description = "Returns a list of collaborators that worked in requested character comics",
           tags = {"collaborator-api-controller",}

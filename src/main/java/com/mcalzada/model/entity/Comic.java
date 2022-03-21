@@ -10,6 +10,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import lombok.Builder;
 
+/**
+ * This class is a mapped entity for comic repository operations
+ *
+ * @author Marco Calzada
+ * @version 1.0
+ * @see com.mcalzada.repository.ComicRepository
+ */
 @Entity
 @Builder
 public class Comic

@@ -10,7 +10,11 @@ import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * CharactersResponse
+ * Controller service API response
+ *
+ * @author Marco Calzada
+ * @version 1.0
+ * @see com.mcalzada.controllers.CharacterApiController
  */
 @Validated
 @Data

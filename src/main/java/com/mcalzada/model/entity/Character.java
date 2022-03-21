@@ -17,7 +17,11 @@ import lombok.Builder;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * Character
+ * This class is a mapped entity for character repository operations
+ *
+ * @author Marco Calzada
+ * @version 1.0
+ * @see com.mcalzada.repository.CharacterRepository
  */
 @Validated
 @Builder

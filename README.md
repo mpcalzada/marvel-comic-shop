@@ -38,6 +38,8 @@ aplicación
 Para conocer la documentación del API, puedes visitar el recurso del sitio `/marvel/api-docs` y `/marvel/`. Mediante documentación generada por OpenAPI, se
 puede conocer la definición de los endpoints y modelos que componen la API.
 
+![open-api-docs](doc/openapi-docs.png)
+
 ### Ruta de contexto
 
 Por defecto, la ruta de contexto para la API es `/marvel/`

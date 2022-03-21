@@ -4,12 +4,25 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * OpenApiConfig is a class used for configuring OpenAPI docs info
+ *
+ * @author Marco Calzada
+ * @version 1.0
+ */
 @Configuration
 public class OpenApiConfig
 {
 
+    /**
+     * This class builds a bean with the application information to be shown as OpenAPI docs
+     *
+     * @return OpenAPI info bean
+     */
+    @Bean
     OpenAPI apiInfo()
     {
         return new OpenAPI()

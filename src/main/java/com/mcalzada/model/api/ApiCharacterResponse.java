@@ -8,6 +8,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * This class is used as a Data Transfer Object for mapping responses from MarvelAPI into service objects
+ *
+ * @author Marco Calzada
+ * @version 1.0
+ * @see com.mcalzada.gateway.MarvelGateway
+ */
 @Getter
 @Setter
 @NoArgsConstructor

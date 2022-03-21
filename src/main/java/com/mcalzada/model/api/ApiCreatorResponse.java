@@ -6,6 +6,13 @@ import javax.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * This class is used as a Data Transfer Object for mapping responses from MarvelAPI into service objects
+ *
+ * @author Marco Calzada
+ * @version 1.0
+ * @see com.mcalzada.gateway.MarvelGateway
+ */
 @Getter
 @Setter
 public class ApiCreatorResponse

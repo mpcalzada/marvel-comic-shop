@@ -8,7 +8,11 @@ import lombok.Builder;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * CollaboratorResponse
+ * Controller service API response
+ *
+ * @author Marco Calzada
+ * @version 1.0
+ * @see com.mcalzada.controllers.CollaboratorApiController
  */
 @Validated
 @Builder
