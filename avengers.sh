@@ -3,4 +3,4 @@
 #mvn spring-boot:run
 
 # Using
-docker-compose up -d
+docker-compose up
