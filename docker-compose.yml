@@ -28,7 +28,7 @@ services:
     networks:
       - comics-api-net
     container_name: comics-api
-    image: mpcalzada/comics-api:1.0
+    image: mccalzada/comics-api:1.0
     ports:
       - "80:80"
 
